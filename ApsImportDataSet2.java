@@ -6,6 +6,10 @@ import net.synergy2.db.sys.res.AngRes;
 import net.synergy2.tester.aps.sce.ApsSceTestService;
 import net.synergy2.tester.sys.itm.SysItmTestService;
 import net.synergy2.tester.sys.res.SysResTestService;
+import net.synergy2.logic.aps.tmp.impl.AngResTmp;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ApsImportDataSet2 extends ApsImportDataSet {
     private final ApsSce scenario;
@@ -39,7 +43,10 @@ public class ApsImportDataSet2 extends ApsImportDataSet {
     }
     
     private void run2 () {
-        
+        R1res = AngRes.newInstance ()
+            .setResCod ("[res] Tornio 01")
+            .setResDsc ("[res] Tornio 01");
+        R1res = apsTmp.post (R1res);
     }
     
     private void run3 () {
@@ -51,7 +58,10 @@ public class ApsImportDataSet2 extends ApsImportDataSet {
     }
     
     private void checkRun2 () {
-        
+        List<AngRes> resList = apsTmp.getActiveAngRes ();
+        Map<String, AngRes> resByCode = resList.stream ().collect (Collectors.toMap (e -> AngResTmp.get ().getCode (e), e -> e));
+        AngRes apsRes = resByCode.get (AngResTmp.get ().getCode (R1res));
+        apsTmp.checkEq (R1res, apsRes);
     }
     
     private void checkRun3 () {

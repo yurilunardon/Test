@@ -31,6 +31,9 @@ import net.synergy2.db.sys.itm.AngPrdVrnImpl.AngPrdVrnFields;
 import net.synergy2.db.sys.itm.AngUniMea;
 import net.synergy2.db.sys.itm.AngUniMeaImpl.AngUniMeaFields;
 import net.synergy2.db.sys.res.AngRes;
+import net.synergy2.db.sys.res.AngResImpl.AngResFields;
+import net.synergy2.db.sys.grp.AngResGrpImpl.AngResGrpFields;
+import net.synergy2.db.sys.grp.AngGrpImpl.AngGrpFields;
 import net.synergy2.graphquery.SGraphQuery;
 import net.synergy2.graphquery.SGraphQuery.Filter;
 import net.synergy2.graphquery.SGraphQuery.Join;
@@ -472,11 +475,8 @@ public class ApsTmpTestService {
         return rest.graphQueryGetMany (
             AngRes.class, 
             SGraphQuery.from (SAlias.AngRes)
-            .join ()
-            .filter (Filter.and (
-                Filter.eq (),
-                Filter.eq ()
-            )));
+            .filter (Filter.eq (AngResFields.LogDel, false))
+        );
     } // getActiveAngRes
 
     public AngRes post (AngRes item) {
@@ -500,9 +500,10 @@ public class ApsTmpTestService {
             SGraphQuery.from (SAlias.AngResGrp)
             .join (Join.with(SAlias.AngResGrp_FKI_Grp).mustExist (true))
             .filter (Filter.and (
-                Filter.eq (),
-                Filter.eq ()
-            )));
+                Filter.eq (AngResGrpFields.LogDel, false),
+                Filter.eq (AngGrpFields.LogDel, false)
+            ))
+        );
     } // getActiveAngResGrp
 
     public AngResGrp post (AngResGrp item) {
@@ -524,11 +525,8 @@ public class ApsTmpTestService {
         return rest.graphQueryGetMany (
             AngGrp.class, 
             SGraphQuery.from (SAlias.AngGrp)
-            .join ()
-            .filter (Filter.and (
-                Filter.eq (),
-                Filter.eq ()
-            )));
+            .filter (Filter.eq (AngGrpFields.LogDel, false))
+        );
     } // getActiveAngGrp
 
     public AngGrp post (AngGrp item) {
@@ -540,7 +538,6 @@ public class ApsTmpTestService {
         Boolean areEqual = rest.post (baseUrl + "/AngGrp/check", new FctEqualsInput<> (item1, item2), null, Boolean.class, FctEqualsInput.class);
         rest.checkEq (true, areEqual);
     } // checkEq
-    
     
     
     
