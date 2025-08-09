@@ -287,41 +287,49 @@ public class ApsImportDataSet1 extends ApsImportDataSet {
         // AngItmMdlVrn --/--> AngItmVrn
         T1itmMdlVrn = apsTmp.post (sysItm.itemModelVariant (T1itmVrn, T1emptyItmMdl).setItmVrn (T1itmVrn).setMdl (T1emptyItmMdl));
          
-//        // AngPrdCyc --/--> AngItm
-//        AngPrdCycTyp T1typLinked = AngPrdCycTyp.newInstance ().setUid (AngPrdCycTyp.ALTERNATIVE_CYCLE);     
-//        
-//        // Non funziona .setPrdCycStd
-//        T1prdCyc = apsTmp.post (sysItm.cycle (T1emptyItem ,"T1prdCyc").setItm (AngItm.newInstance ().setItmCod (T1emptyItem.getItmCod ())).setTyp (T1typLinked)).setPrdCycStd (true);
-//  
-//        // AngPrdCycOpr --/--> AngPrdCyc
-//        T1prdCycOpr = apsTmp.post (sysItm.cycleOperation (T1prdCyc, null, "1", "T1prdCycOpr").setPrdCyc (T1prdCyc).setOprNum ("1"));
-//        
-//        
-//        // AngPrdCycOprLnk --/--> AngPrdCycOpr  
-//        AngItm T1item5 = sysItm.item ("T1item5")
-//          .setItmLngDsc ("T1Item5");
-//        
-//        AngPrdCycTyp T1typLinked2 = AngPrdCycTyp.newInstance ().setUid (2);
-//        
-//        AngPrdCyc T1prdCyc2 = sysItm.cycle (T1item5 ,"T1prdCyc2")
-//            .setItm (AngItm.newInstance ().setItmCod (T1item5.getItmCod ()))
-//            .setTyp (T1typLinked2);
-//    
-//          AngPrdCycOpr T1prdCycOpr1 = AngPrdCycOpr.newInstance ()
-//              .setPrdCyc (T1prdCyc2)
-//              .setOprNum ("1");
-//         
-//        
-//          AngPrdCycOpr T1prdCycOpr2 = AngPrdCycOpr.newInstance ()
-//              .setPrdCyc (T1prdCyc2)
-//              .setOprNum ("2");
-//          
-//
-//        T1prdCycOprLnk = sysItm.cycleOperationLink (T1prdCycOpr1, T1prdCycOpr2)
-//            .setPrePrdCycOpr (T1prdCycOpr1)
-//            .setNxtPrdCycOpr (T1prdCycOpr2);
-//
-//        T1prdCycOprLnk = apsTmp.post (T1prdCycOprLnk);
+        // AngPrdCyc --/--> AngItm
+        AngPrdCycTyp T1typLinked = AngPrdCycTyp.newInstance ().setUid (AngPrdCycTyp.ALTERNATIVE_CYCLE);     
+        
+        T1prdCyc = sysItm.cycle (T1emptyItem ,"T1prdCyc")
+            .setItm (AngItm.newInstance ().setItmCod (T1emptyItem.getItmCod ()))
+            .setTyp (T1typLinked);
+        T1prdCyc = apsTmp.post (T1prdCyc);
+  
+        // AngPrdCycOpr --/--> AngPrdCyc
+        T1prdCycOpr = sysItm.cycleOperation (T1prdCyc, null, "1", "T1prdCycOpr")
+            .setPrdCyc (T1prdCyc)
+            .setOprNum ("1");
+        T1prdCycOpr = apsTmp.post (T1prdCycOpr);
+        
+        
+        // AngPrdCycOprLnk --/--> AngPrdCycOpr  
+        AngItm T1item5 = sysItm.item ("T1item5")
+          .setItmLngDsc ("T1Item5");
+        
+        AngPrdCycTyp T1typLinked2 = AngPrdCycTyp.newInstance ().setUid (2);
+        
+        AngPrdCyc T1prdCyc2 = sysItm.cycle (T1item5 ,"T1prdCyc2")
+            .setItm (AngItm.newInstance ().setItmCod (T1item5.getItmCod ()))
+            .setTyp (T1typLinked2);
+        T1prdCyc2 = apsTmp.post (T1prdCyc2);
+    
+        AngPrdCycOpr T1prdCycOpr1 = sysItm.cycleOperation (T1prdCyc2, null, "1", "T1prdCycOpr1")
+              .setPrdCyc (T1prdCyc2)
+              .setOprNum ("1");
+        T1prdCycOpr1 = apsTmp.post (T1prdCycOpr1);
+         
+        
+        AngPrdCycOpr T1prdCycOpr2 = sysItm.cycleOperation (T1prdCyc2, null, "2", "T1prdCycOpr2")
+              .setPrdCyc (T1prdCyc2)
+              .setOprNum ("2");
+        T1prdCycOpr2 = apsTmp.post (T1prdCycOpr2);
+          
+
+        T1prdCycOprLnk = sysItm.cycleOperationLink (T1prdCycOpr1, T1prdCycOpr2)
+            .setPrePrdCycOpr (T1prdCycOpr1)
+            .setNxtPrdCycOpr (T1prdCycOpr2);
+
+        T1prdCycOprLnk = apsTmp.post (T1prdCycOprLnk);
        
     }
     
@@ -478,63 +486,56 @@ public class ApsImportDataSet1 extends ApsImportDataSet {
          apsTmp.checkEq (T1prdCyc, T1apsPrdCyc);
          
          
-//         // AngPrdCycOpr --/--> AngPrdCyc
-//         List<AngPrdCycOpr> T1prdCycOprs = apsTmp.getActiveAngPrdCycOpr ();
-//         Map<String, AngPrdCycOpr> T1prdCycOprByCode = T1prdCycOprs.stream ().collect (Collectors.toMap (e -> AngPrdCycOprTmp.get ().getCode (e), e -> e));
-//
-//
-//         AngPrdCycTyp T1dummyTyp = AngPrdCycTyp.newInstance ()
-//             .setUid (2);
-//
-//         AngPrdCyc T1dummyPrdCyc = AngPrdCyc.newInstance ()
-//             .setPrdCycCod ("@dummy")
-//             .setItm (dummyItm)
-//             .setTyp (T1dummyTyp) 
-//             .setPrdCycTypUid (2);
-//         
-//         T1prdCycOpr.setPrdCyc (T1dummyPrdCyc);
-//
-//         AngPrdCycOpr T1apsPrdCycOpr = T1prdCycOprByCode.get (AngPrdCycOprTmp.get ().getCode (T1prdCycOpr));
-//
-//         apsTmp.checkEq (T1prdCycOpr, T1apsPrdCycOpr);
-//        
-//        
-//          // AngPrdCycOprLnk --/--> AngPrdCycOpr DA COMPELTARE:
-//          List<AngPrdCycOprLnk> T1prdCycOprLnks = apsTmp.getActiveAngPrdCycOprLnk ();
-//          Map<String, AngPrdCycOprLnk> T1prdCycOprLnkByCode = T1prdCycOprLnks.stream ().collect (Collectors.toMap (e -> AngPrdCycOprLnkTmp.get ().getCode (e), e -> e));
-//    
-//          AngItm T1dummyItem = AngItm.newInstance().setItmCod("@dummy");
-//          
-//          AngPrdCycTyp T1dummyTyp1 = AngPrdCycTyp.newInstance ()
-//              .setUid (2);
-//          
-//          AngPrdCyc T1dummyPrdCyc = AngPrdCyc.newInstance()
-//              .setPrdCycCod("@dummy")
-//              .setItm(T1dummyItem)
-//              .setTyp (T1dummyTyp1)
-//              .setPrdCycTypUid(1);
-//
-//          AngPrdCycOpr T1dummyPreOpr = AngPrdCycOpr.newInstance()
-//              .setPrdCyc(T1dummyPrdCyc)
-//              .setOprNum("@dmy");
-//
-//          AngPrdCycOpr T1dummyNxtOpr = AngPrdCycOpr.newInstance()
-//              .setPrdCyc(T1dummyPrdCyc)
-//              .setOprNum("@dmy");
-//    
-//          T1prdCycOprLnk.setPrePrdCycOpr (T1dummyPreOpr);
-//          T1prdCycOprLnk.setNxtPrdCycOpr (T1dummyNxtOpr);
-//    
-//          AngPrdCycOprLnk T1apsPrdCycOprLnk = T1prdCycOprLnkByCode.get (AngPrdCycOprLnkTmp.get ().getCode (T1prdCycOprLnk));
-//          
-//          String code = AngPrdCycOprLnkTmp.get().getCode(T1prdCycOprLnk);
-//          System.out.println("CODE -> " + code);
-//
-//          System.out.println("TMP  -> " + T1prdCycOprLnk);
-//          System.out.println("APS  -> " + T1apsPrdCycOprLnk);
-//          
-//          
-//          apsTmp.checkEq (T1prdCycOprLnk, T1apsPrdCycOprLnk);
+         // AngPrdCycOpr --/--> AngPrdCyc
+         List<AngPrdCycOpr> T1prdCycOprs = apsTmp.getActiveAngPrdCycOpr ();
+         Map<String, AngPrdCycOpr> T1prdCycOprByCode = T1prdCycOprs.stream ().collect (Collectors.toMap (e -> AngPrdCycOprTmp.get ().getCode (e), e -> e));
+
+
+         AngPrdCycTyp T1dummyTyp = AngPrdCycTyp.newInstance ()
+             .setUid (2);
+
+         AngPrdCyc T1dummyPrdCyc = AngPrdCyc.newInstance ()
+             .setPrdCycCod ("@dummy")
+             .setItm (dummyItm)
+             .setTyp (T1dummyTyp) 
+             .setPrdCycTypUid (2);
+         
+         T1prdCycOpr.setPrdCyc (T1dummyPrdCyc);
+
+         AngPrdCycOpr T1apsPrdCycOpr = T1prdCycOprByCode.get (AngPrdCycOprTmp.get ().getCode (T1prdCycOpr));
+
+         apsTmp.checkEq (T1prdCycOpr, T1apsPrdCycOpr);
+        
+        
+          // AngPrdCycOprLnk --/--> AngPrdCycOpr
+          List<AngPrdCycOprLnk> T1prdCycOprLnks = apsTmp.getActiveAngPrdCycOprLnk ();
+          Map<String, AngPrdCycOprLnk> T1prdCycOprLnkByCode = T1prdCycOprLnks.stream ().collect (Collectors.toMap (e -> AngPrdCycOprLnkTmp.get ().getCode (e), e -> e));
+    
+          AngItm T1dummyItem = AngItm.newInstance().setItmCod("@dummy");
+          
+          AngPrdCycTyp T1dummyTyp1 = AngPrdCycTyp.newInstance ()
+              .setUid (2);
+          
+          AngPrdCyc T1dummyPrdCycLnk = AngPrdCyc.newInstance()
+              .setPrdCycCod("@dummy")
+              .setItm(T1dummyItem)
+              .setTyp (T1dummyTyp1)
+              .setPrdCycTypUid(2);
+
+          AngPrdCycOpr T1dummyPreOpr = AngPrdCycOpr.newInstance()
+              .setPrdCyc(T1dummyPrdCycLnk)
+              .setOprNum("@dummy");
+
+          AngPrdCycOpr T1dummyNxtOpr = AngPrdCycOpr.newInstance()
+              .setPrdCyc(T1dummyPrdCycLnk)
+              .setOprNum("@dummy");
+    
+          T1prdCycOprLnk.setPrePrdCycOpr (T1dummyPreOpr);
+          T1prdCycOprLnk.setNxtPrdCycOpr (T1dummyNxtOpr);
+    
+          AngPrdCycOprLnk T1apsPrdCycOprLnk = T1prdCycOprLnkByCode.get (AngPrdCycOprLnkTmp.get ().getCode (T1prdCycOprLnk));
+          
+          apsTmp.checkEq (T1prdCycOprLnk, T1apsPrdCycOprLnk);
     }
     
     
@@ -561,16 +562,16 @@ public class ApsImportDataSet1 extends ApsImportDataSet {
 
     @Override
     protected void run () {
-//        run1 ();
-//        run2 (); 
+        run1 ();
+        run2 (); 
         run3();
     }
     
     
     @Override
     protected void check () {
-//        checkRun1();
-//        checkRun2();
+        checkRun1();
+        checkRun2();
         checkRun3();
     }
 
